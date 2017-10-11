@@ -8,6 +8,8 @@ parallelExecution in Test := false
 
 fork in Test := true
 
+enablePlugins(ScalafmtPlugin)
+
 scalacOptions ++= Seq(
   // https://tpolecat.github.io/2017/04/25/scalac-flags.html
   "-deprecation",                      // Emit warning and location for usages of deprecated APIs.
