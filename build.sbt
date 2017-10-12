@@ -4,6 +4,25 @@ name := "mfcloud-invoice"
 
 scalaVersion := "2.12.3"
 
+// dependencies version
+lazy val akkaVersion     = "2.4.19"
+lazy val akkaHttpVersion = "10.0.10"
+lazy val circeVersion    = "0.9.0-M1"
+
+libraryDependencies ++= Seq(
+  "com.typesafe.akka"          %% "akka-http"                   % akkaHttpVersion,
+  "com.typesafe.akka"          %% "akka-stream"                 % akkaVersion,
+  "io.circe"                   %% "circe-generic"               % circeVersion,
+  "io.circe"                   %% "circe-parser"                % circeVersion,
+  "de.heikoseeberger"          %% "akka-http-circe"             % "1.19.0-M2",
+  "org.scala-lang.modules"     %% "scala-java8-compat"          % "0.8.0",
+  "com.typesafe.scala-logging" %% "scala-logging"               % "3.7.2",
+  "com.typesafe.akka"          %% "akka-http-testkit"           % akkaHttpVersion % "test",
+  "com.typesafe.akka"          %% "akka-stream-testkit"         % akkaVersion % "test",
+  "org.scalatest"              %% "scalatest"                   % "3.0.4" % "test",
+  "org.scalamock"              %% "scalamock-scalatest-support" % "3.6.0" % "test"
+)
+
 parallelExecution in Test := false
 
 fork in Test := true
