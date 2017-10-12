@@ -17,6 +17,8 @@ import io.circe.generic.AutoDerivation
 import io.circe.syntax._
 import com.typesafe.scalalogging.LazyLogging
 
+import scala.concurrent.ExecutionContextExecutor
+
 trait Bills {
   def post(createBillRequest: CreateBillRequest): Source[Either[Throwable, BillResponse], NotUsed]
   def getPdf(id: String): Source[Either[Throwable, HttpResponse], NotUsed]
@@ -34,8 +36,8 @@ class BillsImpl(
     with FailFastCirceSupport
     with AutoDerivation
     with LazyLogging {
-  implicit val executor     = system.dispatcher
-  implicit val materializer = ActorMaterializer()
+  implicit val executor: ExecutionContextExecutor = system.dispatcher
+  implicit val materializer: ActorMaterializer    = ActorMaterializer()
 
   override def post(createBillRequest: CreateBillRequest): Source[Either[Throwable, BillResponse], NotUsed] = {
     val entity = HttpEntity(`application/json`, createBillRequest.asJson.noSpaces)

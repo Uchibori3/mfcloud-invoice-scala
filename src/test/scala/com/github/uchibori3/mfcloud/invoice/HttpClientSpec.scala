@@ -4,12 +4,12 @@ import akka.actor.ActorSystem
 import akka.stream.scaladsl.Flow
 import org.scalatest.{ BeforeAndAfterAll, DiagrammedAssertions, FlatSpec }
 
-import scala.concurrent.Await
+import scala.concurrent.{ Await, ExecutionContextExecutor }
 import scala.concurrent.duration.Duration
 
 class HttpClientSpec extends FlatSpec with DiagrammedAssertions with BeforeAndAfterAll {
-  implicit val system   = ActorSystem("http-client-system")
-  implicit val executor = system.dispatcher
+  implicit val system: ActorSystem                = ActorSystem("http-client-system")
+  implicit val executor: ExecutionContextExecutor = system.dispatcher
 
   override protected def afterAll(): Unit = {
     Await.ready(system.terminate(), Duration.Inf)

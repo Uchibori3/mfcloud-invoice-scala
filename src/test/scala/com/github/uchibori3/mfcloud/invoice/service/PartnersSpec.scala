@@ -23,7 +23,7 @@ import org.scalamock.scalatest.MockFactory
 import org.scalatest.{ BeforeAndAfterAll, DiagrammedAssertions, FlatSpec }
 import org.scalatest.concurrent.ScalaFutures
 
-import scala.concurrent.Await
+import scala.concurrent.{ Await, ExecutionContextExecutor }
 import scala.concurrent.duration.Duration
 
 class PartnersSpec
@@ -32,9 +32,9 @@ class PartnersSpec
     with BeforeAndAfterAll
     with MockFactory
     with ScalaFutures {
-  implicit val system       = ActorSystem("partners")
-  implicit val executor     = system.dispatcher
-  implicit val materializer = ActorMaterializer()
+  implicit val system: ActorSystem                = ActorSystem("partners")
+  implicit val executor: ExecutionContextExecutor = system.dispatcher
+  implicit val materializer: ActorMaterializer    = ActorMaterializer()
 
   override protected def afterAll(): Unit = {
     Await.result(system.terminate(), Duration.Inf)

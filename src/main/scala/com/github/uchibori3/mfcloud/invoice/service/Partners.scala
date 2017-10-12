@@ -17,6 +17,8 @@ import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport
 import io.circe.generic.AutoDerivation
 import io.circe.syntax._
 
+import scala.concurrent.ExecutionContextExecutor
+
 trait Partners {
   def get(id: String): Source[Either[Throwable, PartnerResponse], NotUsed]
   def post(createPartnerRequest: CreatePartnerRequest): Source[Either[Throwable, PartnerResponse], NotUsed]
@@ -36,8 +38,8 @@ class PartnersImpl(
     with FailFastCirceSupport
     with AutoDerivation
     with LazyLogging {
-  implicit val executor     = system.dispatcher
-  implicit val materializer = ActorMaterializer()
+  implicit val executor: ExecutionContextExecutor = system.dispatcher
+  implicit val materializer: ActorMaterializer    = ActorMaterializer()
 
   override def get(id: String): Source[Either[Throwable, PartnerResponse], NotUsed] = {
     val request = HttpRequest(HttpMethods.GET, s"/api/v1/partners/$id.json")
