@@ -1,6 +1,6 @@
 import ReleaseTransformations._
 
-organization := "com.github.Uchibori3"
+organization := "com.github.uchibori3"
 
 name := "mfcloud-invoice"
 
