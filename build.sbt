@@ -1,3 +1,5 @@
+import ReleaseTransformations._
+
 organization := "com.github.Uchibori3"
 
 name := "mfcloud-invoice"
@@ -91,3 +93,47 @@ scalacOptions in (Compile, console) ~= (_.filterNot(
 ))
 
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-encoding", "UTF-8", "-Xlint")
+
+licenses := Seq("The Apache Software License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
+
+homepage := Some(url("https://github.com/Uchibori3/mfcloud-invoice-scala"))
+
+publishMavenStyle := true
+
+publishArtifact in Test := false
+
+publishTo := Some(
+  if (isSnapshot.value) Opts.resolver.sonatypeSnapshots
+  else Opts.resolver.sonatypeStaging
+)
+
+scmInfo := Some(
+  ScmInfo(
+    url("https://github.com/Uchibori3/mfcloud-invoice-scala"),
+    "scm:git@github.com:Uchibori3/mfcloud-invoice-scala.git"
+  )
+)
+
+developers := List(
+  Developer(
+    id = "uchibori3",
+    name = "Takuya Uchibori",
+    email = "uch180r13@gmail.com",
+    url = url("https://github.com/Uchibori3")
+  )
+)
+
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  runTest,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  ReleaseStep(action = Command.process("+publishSigned", _)),
+  setNextVersion,
+  commitNextVersion,
+  ReleaseStep(action = Command.process("+sonatypeRelease", _)),
+  pushChanges
+)
